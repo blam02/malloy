@@ -1,0 +1,19 @@
+source: market_cap_data is duckdb.table('company_marketcap.parquet') extend {
+  // Correct use of rename with '->'
+  rename: rank -> Rank
+  rename: company_name -> `Company Names`
+  rename: company_code -> `Company Code`
+  rename: market_cap -> Marketcap   // Assuming 'Marketcap' is the field name in the parquet file
+  rename: stock_price -> `Stock Price`   // Assuming 'Stock Price' is the field name in the parquet file
+  rename: origin_flag -> `Origin Flag`
+  rename: country_name -> Country
+
+  // Define measures - calculations across many rows
+  measure: total_market_cap is sum(Marketcap)
+
+  // Define dimensions - individual row level attributes
+  dimension: company is `Company Names`   // This sets 'company' as a dimension for 'Company Names'
+  dimension: code is `Company Code`       // This sets 'code' as a dimension for 'Company Code'
+  dimension: flag is `Origin Flag`        // This sets 'flag' as a dimension for 'Origin Flag'
+  dimension: country                      // Assumes there is a field named 'Country' in the parquet file
+}

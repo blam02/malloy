@@ -1,0 +1,7 @@
+>>>markdown
+# Malloy practice for top Global Companies by MCAP 
+>>>malloy
+source: companies is duckdb.table('companiesmcap.parquet') extend {}
+run: companies -> {
+    select: *
+}
